@@ -2,6 +2,7 @@ package bean;
 
 public class User {
 	public String name;
+	public String sex;
 	public String account;
 	public String password;
 	public String phone;
@@ -11,6 +12,12 @@ public class User {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	public String getAccount() {
 		return account;

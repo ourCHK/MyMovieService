@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
 		
 		response.setContentType("text/html");
 		Writer out = response.getWriter();
-		if(userManager.queryUser(account, password))	//验证正确
+		if(userManager.loginUser(account, password))	//验证正确
 			out.write(SUCCESS);
 		else 
 			out.write(FAILURE);

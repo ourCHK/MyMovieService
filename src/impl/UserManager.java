@@ -12,16 +12,15 @@ import db.DBConnection;
 public class UserManager implements UserDao{
 
 	@Override
-	public boolean queryUser(String userAccount,String userPassword) {
+	public boolean loginUser(String userAccount,String userPassword) {
 		// TODO Auto-generated method stub
-		
 		Connection conn = DBConnection.getConnection();
 		ResultSet rs = null;
 		String sql = "select * from User where account =? and password =?;";
 		try {
 			PreparedStatement preStat = conn.prepareStatement(sql);
-			preStat.setString(1, "12345");
-			preStat.setString(2, "12345");
+			preStat.setString(1, userAccount);
+			preStat.setString(2, userPassword);
 			rs = preStat.executeQuery();
 			if(rs.next())
 				return true;
@@ -39,13 +38,34 @@ public class UserManager implements UserDao{
 				e.printStackTrace();
 			}
 		}
-		
 		return false;
 	}
 
 	@Override
-	public boolean insertUser() {
+	public boolean registerUser(String name, String sex, String account, String password, String phone) {
 		// TODO Auto-generated method stub
+		int result = 0;
+		Connection conn = DBConnection.getConnection();
+		try {
+			String sql = "insert into User(name,sex,account,password,phone) values (?,?,?,?,?);";
+			PreparedStatement preStat = conn.prepareStatement(sql);
+			preStat.setString(1, name);
+			preStat.setString(2, sex);
+			preStat.setString(3, account);
+			preStat.setString(4, password);
+			preStat.setString(5, phone);
+			result = preStat.executeUpdate();
+			if(result != 0) 
+				return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 

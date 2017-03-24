@@ -5,9 +5,9 @@ public interface UserDao {
 	 * 查询用户是否存在用户，用于登录使用
 	 * @return
 	 */
-	public boolean queryUser(String userAccount,String userPassword);
+	public boolean loginUser(String userAccount,String userPassword);
 	
-	public boolean insertUser();
+	public boolean registerUser(String name, String sex, String account, String password, String phone);
 	
 	public boolean deleteUser();
 	
