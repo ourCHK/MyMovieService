@@ -8,12 +8,12 @@
 </head>
 <body>
 	<H1 >添加电影</H1>
-	<form>
-		<ul>电影名称：<input type="text"></ul>
-		<ul>主演:<input type="text"></ul>
-		<ul>介绍:<textarea name="fileDescribe" placeholder="请在此添加电影介绍"></textarea></ul>
-		<ul>添加图片：<input type="file"></ul>
-		<ul>图片:<img src="/home/chk/Downloads/pic/p0.jpg" width="400" height="400" alt="这里显示图片"></ul>
+	<form action="UploadServlet"enctype="multipart/form-data" method="post">
+		<ul>电影名称：<input type="text" name="name"></ul>
+		<ul>主演:<input type="text" name="main_performer"></ul>
+		<ul>介绍:<textarea name="introduce" placeholder="请在此添加电影介绍"></textarea></ul>
+		<ul>添加图片：<input type="file" name="file1" id="file1"></ul>
+		<ul><input type="submit" value="提交"></ul>
 	</form>
 </body>
 </html>
