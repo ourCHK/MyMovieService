@@ -71,7 +71,7 @@ public class MovieManager implements MovieDao {
 		ResultSet rs = null;
 		List<Movie> movieList = new ArrayList<>();
 		try {
-			String sql = "select * from Movie limit ?,?;";
+			String sql = "select * from Movie order by id desc limit ?,?;";
 			PreparedStatement preStat = conn.prepareStatement(sql);
 			preStat.setInt(1, from);
 			preStat.setInt(2, to);
@@ -102,11 +102,13 @@ public class MovieManager implements MovieDao {
 	}
 	
 	/**
-	 * 讲list转化为Json
+	 * 讲list转化为Json，若list为空，则返回""
 	 * @param list	要转化的list
 	 * @return
 	 */
 	private String listToJson(List list) {
+		if(list.isEmpty())
+			return "";
 		Gson gson = new Gson();
 		return gson.toJson(list);
 	}
