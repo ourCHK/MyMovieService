@@ -59,6 +59,7 @@ public class UserManager implements UserDao{
 				return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				conn.close();
