@@ -11,7 +11,7 @@ public class DBConnection {
 	
 		  
 	private final static String DBDRIVER = "com.mysql.jdbc.Driver";   
-	private final static String DBURL = "jdbc:mysql://localhost:3306/MyMovie";  	  
+	private final static String DBURL = "jdbc:mysql://localhost:3306/MyMovie?useUnicode=true&characterEncoding=utf8";  	  
 	private final static String DBUSER = "root";  	  
 	private final static String DBPASSWORD = "root";  	  
 	private static Connection conn = null;  

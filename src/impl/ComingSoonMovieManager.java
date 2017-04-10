@@ -9,12 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import bean.ComingSoonMovie;
+import bean.Movie;
 import dao.ComingSoonMovieDao;
 import db.DBConnection;
 import okhttp3.Response;
@@ -214,9 +217,9 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 			
 			ComingSoonMovie csMovie = new ComingSoonMovie();
 			csMovie.setId(id);
-			csMovie.setTitle("1");
+			csMovie.setTitle(title);
 			csMovie.setCollect_count(collect_count);
-			csMovie.setOriginal_title("2");
+			csMovie.setOriginal_title(original_title);
 			csMovie.setYear(year);
 			csMovie.setImages(images);
 			csMovieList.add(csMovie);
@@ -290,6 +293,57 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 			
 		}				
 		return serverMovieCount;
+	}
+
+	@Override
+	public String getQueryMovieJson(int from, int to) {
+		// TODO Auto-generated method stub
+		String result = null;
+		Connection conn = DBConnection.getConnection();
+		ResultSet rs = null;
+		List<ComingSoonMovie> csMovieList = new ArrayList<>();
+		try {
+			String sql = "select * from ComingSoonMovie limit ?,?;";
+			PreparedStatement preStat = conn.prepareStatement(sql);
+			preStat.setInt(1, from);
+			preStat.setInt(2, to);
+			rs = preStat.executeQuery();
+			while(rs.next()) {
+				ComingSoonMovie csMovie = new ComingSoonMovie();
+				csMovie.setId(rs.getInt(1));
+				csMovie.setTitle(rs.getString(2));
+				csMovie.setCollect_count(rs.getInt(3));
+				csMovie.setOriginal_title(rs.getString(4));
+				csMovie.setYear(rs.getInt(5));
+				csMovie.setImages(rs.getString(6));
+				csMovie.setImage_path(rs.getString(7));
+				csMovieList.add(csMovie);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		result = listToJson(csMovieList);
+		System.out.println(result);
+		return result;
+	}
+	
+	/**
+	 * 讲list转化为Json，若list为空，则返回""
+	 * @param list	要转化的list
+	 * @return
+	 */
+	private String listToJson(List list) {
+		if(list.isEmpty())
+			return "";
+		Gson gson = new Gson();
+		return gson.toJson(list);
 	}
 
 }

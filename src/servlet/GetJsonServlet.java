@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import impl.ComingSoonMovieManager;
 import impl.MovieManager;
 
 /**
@@ -33,6 +34,7 @@ public class GetJsonServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		int from  = Integer.parseInt(request.getParameter("from"));
 		int to = Integer.parseInt(request.getParameter("to"));
+		String type  = request.getParameter("type");
 		String result = "";
 //		
 //		PicListInfo picListInfo = new PicListInfo();
@@ -48,9 +50,19 @@ public class GetJsonServlet extends HttpServlet {
 //		picInfo.setPicName("Hello");
 //		picInfo.setPicAddress("none");
 //		String picJson = new Gson().toJson(picInfo);
+		switch(type) {
+		case "OnShow":
+			MovieManager movieManager = new MovieManager();
+			result = movieManager.getQueryMovieJson(from, to);
+			break;
+		case "ComingSoon":
+			ComingSoonMovieManager csMovieManager = new ComingSoonMovieManager();
+			result = csMovieManager.getQueryMovieJson(from, to);
+			break;
+		default:
+				break;
+		}
 		
-		MovieManager movieManager = new MovieManager();
-		result = movieManager.getQueryMovieJson(from, to);
 		
 		response.setContentType("text/html");
 		Writer out = response.getWriter();
