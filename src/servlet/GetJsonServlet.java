@@ -65,6 +65,7 @@ public class GetJsonServlet extends HttpServlet {
 		
 		
 		response.setContentType("text/html");
+//		response.setCharacterEncoding("utf8");
 		Writer out = response.getWriter();
 		out.write(result);
 		out.flush();
