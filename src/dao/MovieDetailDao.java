@@ -23,6 +23,6 @@ public interface MovieDetailDao {
 	 */
 	public String getMovieDetailJson(int id);
 	
-	public String saveImage(int  id,String url);
+	public String saveImage(int id,String url);
 	
 }

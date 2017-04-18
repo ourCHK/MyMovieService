@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +18,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import bean.ComingSoonMovie;
-import bean.Movie;
 import dao.ComingSoonMovieDao;
 import db.DBConnection;
 import okhttp3.Response;
@@ -33,11 +32,11 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 	ArrayList<ComingSoonMovie> csMovieList;
 	
 	public ComingSoonMovieManager() {
-		init();
+//		init();
 	}
 	
 	public static void main(String[] args) {
-		new ComingSoonMovieManager().AddAllMovie();
+		new ComingSoonMovieManager().getQueryMovieJson(1, 10);
 	}
 	
 	/**
@@ -59,7 +58,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 		serverMovieCount = getServerMovieCount();
 	}
 	
-	/**
+	/**t
 	 * 讲服务器上的所有影片添加到本地
 	 * @return
 	 */
@@ -86,8 +85,8 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 		int result[] = null;
 		Connection conn = DBConnection.getConnection();
 		try {
-			String sql = "insert into ComingSoonMovie(id,title,collect_count,original_title,year,images,image_path)"
-					+ " values(?,?,?,?,?,?,?);";
+			String sql = "insert into ComingSoonMovie(id,title,collect_count,original_title,year,images,image_path,create_date)"
+					+ " values(?,?,?,?,?,?,?,?);";
 			PreparedStatement preStat = conn.prepareStatement(sql);
 			for (ComingSoonMovie csMovie:csMovieList) {
 				preStat.setInt(1, csMovie.getId());
@@ -97,6 +96,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 				preStat.setInt(5, csMovie.getYear());
 				preStat.setString(6, csMovie.getImages());
 				preStat.setString(7, csMovie.getImage_path());
+				preStat.setDate(8, csMovie.getCreate_date());
 				preStat.addBatch();
 			}
 			result = preStat.executeBatch();
@@ -187,11 +187,11 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 	/**
 	 * 
 	 * @param json
-	 * @return 图片解析错误的个数，0个表示解析全部成功
+	 * @return 获取服务器电影图片出错的个数，0个表示解析全部成功
 	 */
 	public int parseComingSoon(String json) {
-		
-		int errorCount = 0;	//图片解析错误的个数
+		Date create_date = new Date(System.currentTimeMillis());	//存储时间
+		int errorCount = 0;	//获取图片出错的个数
 		csMovieList.clear();
 		
 		JsonParser parser = new JsonParser();
@@ -223,6 +223,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 			csMovie.setOriginal_title(original_title);
 			csMovie.setYear(year);
 			csMovie.setImages(images);
+			csMovie.setCreate_date(create_date);
 			csMovieList.add(csMovie);
 		}
 		for (ComingSoonMovie csMovie:csMovieList) {
@@ -240,6 +241,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 			System.out.println(csMovie.getYear()+"");
 			System.out.println(csMovie.getImages());
 			System.out.println(csMovie.getImage_path());
+			System.out.println(csMovie.getCreate_date());
 			System.out.println();
 		}
 		return errorCount;	
@@ -297,7 +299,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 	}
 
 	@Override
-	public String getQueryMovieJson(int from, int to) {
+	public String getQueryMovieJson(int from, int count) {
 		// TODO Auto-generated method stub
 		String result = null;
 		Connection conn = DBConnection.getConnection();
@@ -307,7 +309,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 			String sql = "select * from ComingSoonMovie limit ?,?;";
 			PreparedStatement preStat = conn.prepareStatement(sql);
 			preStat.setInt(1, from);
-			preStat.setInt(2, to);
+			preStat.setInt(2, count);
 			rs = preStat.executeQuery();
 			while(rs.next()) {
 				ComingSoonMovie csMovie = new ComingSoonMovie();
@@ -318,6 +320,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 				csMovie.setYear(rs.getInt(5));
 				csMovie.setImages(rs.getString(6));
 				csMovie.setImage_path(rs.getString(7));
+				csMovie.setCreate_date(rs.getDate(8));
 				csMovieList.add(csMovie);
 			}
 		} catch (SQLException e) {

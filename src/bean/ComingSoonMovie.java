@@ -1,5 +1,7 @@
 package bean;
 
+import java.sql.Date;
+
 public class ComingSoonMovie {
 	int id;
 	String title;
@@ -8,6 +10,7 @@ public class ComingSoonMovie {
 	int year;
 	String images;	//获取图片地址
 	String image_path;	//本地图片路径
+	Date create_date;
 	
 	public int getId() {
 		return id;
@@ -50,6 +53,12 @@ public class ComingSoonMovie {
 	}
 	public void setImage_path(String image_path) {
 		this.image_path = image_path;
+	}
+	public Date getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
 	}
 	
 	
