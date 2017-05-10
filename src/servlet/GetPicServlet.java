@@ -3,6 +3,7 @@ package servlet;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,7 +32,16 @@ public class GetPicServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //        String imagePath = "/home/chk/Downloads/pic/p0.jpg";
-        String imagePath = request.getParameter("path");
+		String imagePath = "";
+        imagePath = request.getParameter("path");
+        if (imagePath == null || imagePath.isEmpty()) {		//判断地址是否为空
+        	response.setContentType("text/html");
+        	PrintWriter out = response.getWriter();
+        	out.write("请确保path地址不为空");
+        	out.flush();
+        	out.close();
+        	return;
+        }      	
         FileInputStream fis = new FileInputStream(imagePath);  
         int size =fis.available(); //得到文件大小   
         byte data[]=new byte[size];   

@@ -59,6 +59,8 @@ public class GetJsonServlet extends HttpServlet {
 			ComingSoonMovieManager csMovieManager = new ComingSoonMovieManager();
 			result = csMovieManager.getQueryMovieJson(from, to);
 			break;
+		case "InThreater":
+			
 		default:
 				break;
 		}

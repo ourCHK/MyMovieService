@@ -32,11 +32,11 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 	ArrayList<ComingSoonMovie> csMovieList;
 	
 	public ComingSoonMovieManager() {
-//		init();
+		init();
 	}
 	
 	public static void main(String[] args) {
-		new ComingSoonMovieManager().getQueryMovieJson(1, 10);
+		new ComingSoonMovieManager().AddAllMovie();
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 	public boolean AddAllMovie() {
 		
 		if (serverMovieCount <= movieCount) {
-			System.out.println("影片下载完毕");
+			System.out.println("影片已下载完毕");
 			return true;
 		}
 			
@@ -74,6 +74,7 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 				return false;
 			start = start + count;
 		}
+		System.out.println("影片已下载完毕");
 		return true;
 	}
 	

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	Hello World!
+	Welcome to CHK's Movie Ordering System!
 </body>
 </html>

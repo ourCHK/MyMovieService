@@ -53,6 +53,9 @@ public class MovieDetailManager implements MovieDetailDao{
 		init();
 	}
 	
+	/**
+	 * 初始化文件夹参数
+	 */
 	public void init() {
 		File file1 = new File("/home/chk/MyMovie");
 		File file2 = new File("/home/chk/MyMovie/MovieDetail");
@@ -193,7 +196,7 @@ public class MovieDetailManager implements MovieDetailDao{
 		}
 		
 		String summary = object.get("summary").getAsString();
-		String casts = null;
+		String casts = "";
 		for (int i=0; i<castsArray.size(); i++) {
 			JsonObject castsObject = castsArray.get(i).getAsJsonObject();
 			casts += castsObject.get("name").getAsString();
