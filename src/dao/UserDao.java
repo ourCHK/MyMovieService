@@ -11,5 +11,5 @@ public interface UserDao {
 	
 	public boolean deleteUser();
 	
-	public boolean updateUser();
+	public boolean updateUser(String name, String sex, String account, String password, String phone);
 }

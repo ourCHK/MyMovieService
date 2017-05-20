@@ -12,11 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import impl.UserManager;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class UpdateInfoServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
-	
+@WebServlet("/UpdateInfoServlet")
+public class UpdateInfoServlet extends HttpServlet {
 	private static String SUCCESS = "SUCCESS";
 	private static String FAILURE = "FAILURE";
 	
@@ -25,7 +24,7 @@ public class LoginServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public UpdateInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,16 +34,18 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		String name = request.getParameter("name");
+		String sex = request.getParameter("sex");
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
-		System.out.println(account+"  "+password);
-		UserManager userManager = new UserManager();
+		String phone = request.getParameter("phone");
 		
+		UserManager userManager = new UserManager();
+		System.out.println(name+" "+sex+ " "+ account + " "+ password + " "+ phone);
 		response.setContentType("text/html");
 		Writer out = response.getWriter();
-		if(userManager.loginUser(account, password)) //验证正确
-			out.write(userManager.getUserInfo());
+		if (userManager.registerUser(name, sex, account, password, phone))
+			out.write(SUCCESS);
 		else 
 			out.write(FAILURE);
 		out.flush();

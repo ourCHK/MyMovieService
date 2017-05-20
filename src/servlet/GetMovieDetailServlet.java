@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.Writer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,17 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import impl.MovieDetailManager;
+
 /**
  * Servlet implementation class GetMovieDetail
  */
-@WebServlet("/GetMovieDetail")
-public class GetMovieDetail extends HttpServlet {
+@WebServlet("/GetMovieDetailServlet")
+public class GetMovieDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	MovieDetailManager movieDetailManager = new MovieDetailManager();
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetMovieDetail() {
+    public GetMovieDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,7 +32,15 @@ public class GetMovieDetail extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int id = Integer.parseInt(request.getParameter("id"));
+		int movieId = Integer.parseInt(request.getParameter("movieId"));
+		String result = movieDetailManager.getMovieDetailJson(movieId);
+		System.out.println(result);
+		response.setContentType("text/html");
+//		response.setCharacterEncoding("utf8");
+		Writer out = response.getWriter();
+		out.write(result);
+		out.flush();
+		out.close();		
 		
 	}
 

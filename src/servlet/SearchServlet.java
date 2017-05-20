@@ -9,44 +9,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import impl.UserManager;
+import impl.SearchManager;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class SearchServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
-	
-	private static String SUCCESS = "SUCCESS";
-	private static String FAILURE = "FAILURE";
-	
+@WebServlet("/SearchServlet")
+public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		String account = request.getParameter("account");
-		String password = request.getParameter("password");
-		System.out.println(account+"  "+password);
-		UserManager userManager = new UserManager();
-		
+		String keyword = request.getParameter("keyword");
+		int start = Integer.parseInt(request.getParameter("start"));
+		int count = Integer.parseInt(request.getParameter("count"));
+		SearchManager searchManager = new SearchManager();
+		String result = searchManager.search(keyword, start, count);
+		System.out.println(result);
 		response.setContentType("text/html");
 		Writer out = response.getWriter();
-		if(userManager.loginUser(account, password)) //验证正确
-			out.write(userManager.getUserInfo());
-		else 
-			out.write(FAILURE);
+		out.write(result);
 		out.flush();
 		out.close();
 	}

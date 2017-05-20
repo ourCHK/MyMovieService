@@ -2,9 +2,10 @@ package bean;
 
 import java.sql.Date;
 
-public class MovieInThreater {
+public class InTheaterMovie {
 	int id;
 	String title;
+	float average;
 	int collect_count;
 	String original_title;
 	int year;
@@ -59,6 +60,12 @@ public class MovieInThreater {
 	}
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
+	}
+	public float getAverage() {
+		return average;
+	}
+	public void setAverage(float average) {
+		this.average = average;
 	}
 	
 	
