@@ -36,11 +36,12 @@
 	<%
 		for (TicketShow orderShow:list) {
 	%>
-		<form name="modify_user" method="post" action="/MyMovieService/UpdateTicketPrice">
+		<form name="modify_user" method="post" action="/MyMovieService/UpdateTicketPriceServlet">
 		<tr>
-			<td align="center"><input type="text" name="movieId"value=<%=orderShow.getMovieId() %> size="10" disabled="true"></td>
+			<td align="center"><input type="text" value=<%=orderShow.getMovieId() %> size="10" disabled="true"></td>
 			<td align="center"><input type="text" name="movieTitle" value=<%=orderShow.getMovieTitle() %> size="20" disabled="true"></td>
 			<td align="center"><input type="text" name="moviePrice" value=<%=orderShow.getMoviePrice() %> size="5" ></td>
+			<td align="center"><input type="hidden" name="movieId" value=<%=orderShow.getMovieId() %> size="10"></td>
 			<td align="center"><input type="submit" value="修改" ></td>
 		</tr>
 		</form>
