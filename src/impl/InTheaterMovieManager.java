@@ -74,8 +74,10 @@ public class InTheaterMovieManager implements InTheaterMovieDao {
 		if (serverMovieCount <= movieCount) {
 			System.out.println("影片已下载完毕");
 			return true;
+		} else {
+			deleteAllMovie();
 		}
-			
+		
 		while (start <= serverMovieCount) {
 			if (!addMovie())
 				return false;
@@ -364,6 +366,34 @@ public class InTheaterMovieManager implements InTheaterMovieDao {
 		result = listToJson(itMovieList);
 		System.out.println(result);
 		return result;
+	}
+	
+	public boolean deleteAllMovie() {
+		int result = 0;
+		int movieCount = getMovieCount();
+		if (movieCount == 0)
+			return true;
+		Connection conn = DBConnection.getConnection();
+		try {
+			String sql = "delete from InTheaterMovie";
+			PreparedStatement preStat = conn.prepareStatement(sql);
+			result = preStat.executeUpdate();
+			if (result != count) {
+				System.out.println("删除正在上映电影出错");
+				return false;
+			}
+			System.out.println("删除正在上映电影成功");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**

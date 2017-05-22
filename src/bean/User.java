@@ -1,12 +1,19 @@
 package bean;
 
 public class User {
+	public int id;
 	public String name;
 	public String sex;
 	public String account;
 	public String password;
 	public String phone;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}

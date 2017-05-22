@@ -41,11 +41,11 @@ public class GetJsonServlet extends HttpServlet {
 		int from = -1;
 		int to = -1;
 		int movieId = -1;
-		Date create_date = null;	
+		Date ticket_date = null;	
 		
 		if (type.equals("ChoosedSeats")) {	//如果是请求座位的话
 			movieId = Integer.parseInt(request.getParameter("movieId"));
-			create_date = Date.valueOf(request.getParameter("create_date"));
+			ticket_date = Date.valueOf(request.getParameter("ticket_date"));
 		} else if (type.equals("MoviePrice")) {	//如果是请求电影票价格的话
 			movieId = Integer.parseInt(request.getParameter("movieId"));
 		} else {	//其他查询情况
@@ -83,7 +83,7 @@ public class GetJsonServlet extends HttpServlet {
 			break;	
 		case "ChoosedSeats":	//选择座位,返回已定座位的json
 			MovieOrderManager movieOrderManager = new MovieOrderManager();
-			result = movieOrderManager.getChoosedMovieOrder(movieId, create_date);
+			result = movieOrderManager.getChoosedMovieOrder(movieId, ticket_date);
 			break;
 		case "MoviePrice":
 			TicketManager ticketManager = new TicketManager();

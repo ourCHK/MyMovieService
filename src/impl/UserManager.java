@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.mysql.jdbc.Connection;
@@ -16,10 +18,13 @@ public class UserManager implements UserDao{
 
 	String userAccount;
 	User user;
+	List<User> userList = new ArrayList<>();
 	
 	public static void main(String[] arsg) {
 		System.out.println(new UserManager().updateUser("chk2", "男","6622236", "1234567", "18826402897"));
 	}
+	
+	
 	
 	@Override
 	public boolean updateUser(String name, String sex, String account, String password, String phone) {
@@ -67,6 +72,7 @@ public class UserManager implements UserDao{
 			rs = preStat.executeQuery();
 			if(rs.next()) {
 				user = new User();
+				user.setId(rs.getInt(1));
 				user.setName(rs.getString(2));
 				user.setSex(rs.getString(3));
 				user.setAccount(rs.getString(4));
@@ -158,6 +164,40 @@ public class UserManager implements UserDao{
 		return false;
 	}
 
+	public List getAllUser() {
+		Connection conn = DBConnection.getConnection();
+		ResultSet rs = null;
+		String sql = "select * from User;";
+		try {
+			PreparedStatement preStat = conn.prepareStatement(sql);
+			rs = preStat.executeQuery();
+			while(rs.next()) {
+				user = new User();
+				user.setId(rs.getInt(1));
+				user.setName(rs.getString(2));
+				user.setSex(rs.getString(3));
+				user.setAccount(rs.getString(4));
+				user.setPassword(rs.getString(5));
+				user.setPhone(rs.getString(6));
+				userList.add(user);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null)
+					rs.close();
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return userList;
+	}
 	
 	
 	public String userToJson() {

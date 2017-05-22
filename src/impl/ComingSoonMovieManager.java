@@ -67,6 +67,8 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 		if (serverMovieCount <= movieCount) {
 			System.out.println("影片已下载完毕");
 			return true;
+		} else {
+			deleteAllMovie();
 		}
 			
 		while (start <= serverMovieCount) {
@@ -349,6 +351,26 @@ public class ComingSoonMovieManager implements ComingSoonMovieDao {
 			return "";
 		Gson gson = new Gson();
 		return gson.toJson(list);
+	}
+	
+	public boolean deleteAllMovie() {
+		Connection conn = DBConnection.getConnection();
+		try {
+			String sql = "delete from ComingSoonMovie";
+			PreparedStatement preStat = conn.prepareStatement(sql);
+			preStat.executeUpdate();
+			System.out.println("删除旧即将上映电影成功");
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

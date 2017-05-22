@@ -1,34 +1,18 @@
 package bean;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 /**
- * 电影订单类
+ * 该类为了解决日期格式不兼容问题
  * @author chk
  *
  */
-public class MovieOrder {
+public class MovieOrderBuy {
 	int userId;
 	int movieId;
 	int choosed_row;
 	int choosed_column;
-	Date ticket_date;
-	Timestamp create_date;
-	public Date getTicket_date() {
-		return ticket_date;
-	}
-	public void setTicket_date(Date ticket_date) {
-		this.ticket_date = ticket_date;
-	}
-	
-	
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+	String ticket_date;
+	String create_date;
+	String title;
 	public int getMovieId() {
 		return movieId;
 	}
@@ -47,13 +31,30 @@ public class MovieOrder {
 	public void setChoosed_column(int choosed_column) {
 		this.choosed_column = choosed_column;
 	}
-	public Timestamp getCreate_date() {
+	public String getTicket_date() {
+		return ticket_date;
+	}
+	public void setTicket_date(String ticket_date) {
+		this.ticket_date = ticket_date;
+	}
+	public String getCreate_date() {
 		return create_date;
 	}
-	public void setCreate_date(Timestamp create_date) {
+	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
 	}
-	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	
 	
 }
